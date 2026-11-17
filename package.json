@@ -1,14 +1,43 @@
 {
-  "name": "react-example",
+  "name": "chroma-smart-tv",
   "private": true,
   "version": "1.0.0",
+  "description": "Chroma Smart TV — Player IPTV M3U & Xtream para Samsung Tizen TV",
   "type": "module",
+  "packageType": "app",
+  "appName": "Chroma Smart TV",
+  "appPath": "dist/index.html",
+  "main": "dist/index.html",
+  "evaluateScriptOnDocumentStart": false,
+  "keys": [
+    "MediaPlay",
+    "MediaPause",
+    "MediaPlayPause",
+    "MediaStop",
+    "MediaFastForward",
+    "MediaRewind",
+    "ChannelUp",
+    "ChannelDown",
+    "ColorF0Red",
+    "ColorF1Green",
+    "ColorF2Yellow",
+    "ColorF3Blue"
+  ],
+  "files": [
+    "dist",
+    "config.xml",
+    "icon.png",
+    "ChromaSmartTV.wgt"
+  ],
   "scripts": {
     "dev": "tsx server.ts",
     "start": "NODE_ENV=production tsx server.ts",
     "build": "vite build",
+    "build:tizen": "vite build",
+    "build:wgt": "vite build && node scripts/build-wgt.mjs",
+    "package:wgt": "vite build && tizen package -t wgt -- dist",
     "preview": "vite preview",
-    "clean": "rm -rf dist server.js",
+    "clean": "rm -rf dist server.js ChromaSmartTV.wgt",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

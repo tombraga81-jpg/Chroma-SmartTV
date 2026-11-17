@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://cromatv.app/tizen" version="1.0.0" viewmodes="maximized">
-  <tizen:application id="cromatv001.CromaTV" package="cromatv001" required_version="5.5"/>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://tizen.app/chroma.smarttv" version="1.0.0" viewmodes="fullscreen">
+  <tizen:application id="chromatv01.ChromaSmartTV" package="chromatv01" required_version="5.5"/>
   <content src="index.html"/>
   <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
   <access origin="*" subdomains="true"/>
   <icon src="icon.png"/>
-  <name>CromaTV</name>
+  <name>Chroma Smart TV</name>
   <tizen:privilege name="http://tizen.org/privilege/internet"/>
   <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
   <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
