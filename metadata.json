@@ -1,0 +1,6 @@
+{
+  "name": "CromaTV — Player M3U & Xtream",
+  "description": "Player rápido, intuitivo e moderno para listas .m3u e Xtream Codes com TV ao Vivo, Filmes, Séries e Continuar Assistindo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
