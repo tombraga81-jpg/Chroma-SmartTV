@@ -12,6 +12,82 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script>/* Polyfills p/ Chromium 69 (Samsung Tizen 5.5). Classic script, ES5. */
+(function () {
+  var g = (typeof window !== 'undefined') ? window : this;
+  if (typeof g.globalThis === 'undefined') { g.globalThis = g; }
+  if (!g.queueMicrotask) { g.queueMicrotask = function (cb) { Promise.resolve().then(cb); }; }
+  function def(o, k, v) { if (!o[k]) { try { Object.defineProperty(o, k, { value: v, writable: true, configurable: true }); } catch (e) { o[k] = v; } } }
+  def(String.prototype, 'replaceAll', function (s, r) {
+    if (s instanceof RegExp) { return this.replace(s, r); }
+    return this.split(String(s)).join(typeof r === 'function' ? r(String(s)) : r);
+  });
+  def(String.prototype, 'at', function (i) { i = Math.trunc(i) || 0; if (i < 0) i += this.length; return i < 0 || i >= this.length ? undefined : this.charAt(i); });
+  def(Array.prototype, 'at', function (i) { i = Math.trunc(i) || 0; if (i < 0) i += this.length; return this[i]; });
+  def(Array.prototype, 'findLast', function (f, t) { for (var i = this.length - 1; i >= 0; i--) { if (f.call(t, this[i], i, this)) return this[i]; } });
+  def(Array.prototype, 'findLastIndex', function (f, t) { for (var i = this.length - 1; i >= 0; i--) { if (f.call(t, this[i], i, this)) return i; } return -1; });
+  def(Object, 'fromEntries', function (it) { var o = {}; var a = Array.from(it); for (var i = 0; i < a.length; i++) { o[a[i][0]] = a[i][1]; } return o; });
+  def(Object, 'hasOwn', function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); });
+  if (!Promise.allSettled) {
+    Promise.allSettled = function (ps) {
+      return Promise.all(Array.from(ps).map(function (p) {
+        return Promise.resolve(p).then(function (v) { return { status: 'fulfilled', value: v }; }, function (e) { return { status: 'rejected', reason: e }; });
+      }));
+    };
+  }
+  if (!Promise.any) {
+    Promise.any = function (ps) {
+      return new Promise(function (res, rej) {
+        var a = Array.from(ps), n = a.length, errs = [];
+        if (!n) { rej(new Error('All promises were rejected')); return; }
+        a.forEach(function (p, i) { Promise.resolve(p).then(res, function (e) { errs[i] = e; if (--n === 0) { var er = new Error('All promises were rejected'); er.errors = errs; rej(er); } }); });
+      });
+    };
+  }
+  if (!g.structuredClone) { g.structuredClone = function (v) { return v === undefined ? v : JSON.parse(JSON.stringify(v)); }; }
+  if (g.crypto && !g.crypto.randomUUID) {
+    g.crypto.randomUUID = function () {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+    };
+  }
+  if (g.AbortSignal && !g.AbortSignal.timeout) {
+    g.AbortSignal.timeout = function (ms) { var c = new AbortController(); setTimeout(function () { c.abort(); }, ms); return c.signal; };
+  }
+  if (g.Element && !Element.prototype.replaceChildren) {
+    Element.prototype.replaceChildren = function () { while (this.firstChild) this.removeChild(this.firstChild); for (var i = 0; i < arguments.length; i++) this.appendChild(typeof arguments[i] === 'string' ? document.createTextNode(arguments[i]) : arguments[i]); };
+  }
+
+  /* Flex "gap" nao existe no Chromium 69: simula com margens (so em motores antigos). */
+  var old = false;
+  try { old = !(g.CSS && g.CSS.supports && g.CSS.supports('aspect-ratio', '1 / 1')); } catch (e) { old = true; }
+  if (!old) return;
+  var timer = null;
+  function px(v) { var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+  function fix() {
+    timer = null;
+    var els = document.querySelectorAll('[class*="gap-"]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i], cs = getComputedStyle(el);
+      if (cs.display.indexOf('flex') < 0) continue;
+      var cg = px(cs.columnGap), rg = px(cs.rowGap);
+      if (!cg && !rg) continue;
+      var col = cs.flexDirection.indexOf('column') === 0, wrap = cs.flexWrap !== 'nowrap';
+      var kids = el.children;
+      for (var j = 0; j < kids.length; j++) {
+        var k = kids[j];
+        if (wrap) { k.style.marginRight = cg + 'px'; k.style.marginBottom = rg + 'px'; }
+        else if (j > 0) { if (col) k.style.marginTop = rg + 'px'; else k.style.marginLeft = cg + 'px'; }
+      }
+    }
+  }
+  function sched() { if (!timer) timer = setTimeout(fix, 60); }
+  function start() {
+    sched();
+    new MutationObserver(sched).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
     <script type="module" crossorigin src="./assets/index-DczXRq8H.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-CWICQvSP.css">
   </head>
