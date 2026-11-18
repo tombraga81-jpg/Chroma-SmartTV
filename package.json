@@ -1,7 +1,7 @@
 {
   "name": "chroma-smart-tv",
   "private": true,
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Chroma Smart TV — Player IPTV M3U & Xtream para Samsung Tizen TV",
   "type": "module",
   "packageType": "app",
